@@ -27,5 +27,6 @@ class Holiday(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
     def get_all():
         return Holiday.query.all()
