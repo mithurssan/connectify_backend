@@ -18,3 +18,9 @@ class Holiday(db.Model):
         self.holiday_end_date = holiday_end_date
         self.holiday_status = holiday_status
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def get_all():
+        return Holiday.query.all()
