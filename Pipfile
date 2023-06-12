@@ -11,6 +11,11 @@ flask-wtf = "*"
 psycopg2 = "*"
 python-dotenv = "*"
 gunicorn = "*"
+requests = "*"
+flask-login = "*"
+flask-bcrypt = "*"
+flask-migrate = "*"
+python-decouple = "*"
 
 [scripts]
 dev="flask run"
