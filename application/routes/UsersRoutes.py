@@ -1,6 +1,6 @@
 from application.controllers import UserController
 from application.models import User
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from application import bcrypt
 
 
@@ -25,7 +25,7 @@ def format_users(user):
 
 
 @user.route("/register", methods=["POST"])
-def register():
+def register_user():
     data = request.json
     # print(data)
     username = data.get("user_username")
@@ -39,5 +39,17 @@ def register():
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     new_user = User(user_username=username, user_password=hashed_password)
 
+    session["user_id"] = new_user.user_id
+
     UserController.register_user(username, hashed_password)
     return jsonify({"username": username, "password": hashed_password})
+
+
+@user.route("/login", methods=["POST"])
+def login_user():
+    data = request.json
+    # print(data)
+    username = data.get("user_username")
+    password = data.get("user_password")
+
+    return jsonify({"username": username})
