@@ -41,3 +41,8 @@ def register():
 
 
 
+@user.route('/delete/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    UserController.delete_user(user_id)
+    return jsonify({"message": "User deleted successfully"})
+

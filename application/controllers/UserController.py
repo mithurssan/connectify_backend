@@ -14,4 +14,9 @@ class UserController:
         return User.get_by_id(user_id)
 
 
-   
+
+
+    def delete_user(user_id):
+        user = User.get_by_id(user_id)
+        if user:
+            user.delete()

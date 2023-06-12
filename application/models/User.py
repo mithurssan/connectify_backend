@@ -31,8 +31,7 @@ class User(db.Model):
     def get_by_id(user_id):
         return User.query.get(user_id)
 
-    # def update(self):
-    #     db.session.commit()
+   
     
     def delete(self):
         db.session.delete(self)
