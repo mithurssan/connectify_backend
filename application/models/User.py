@@ -7,9 +7,9 @@ class User(db.Model):
     user_username = db.Column(db.String(100), nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+    def __init__(self, user_username, user_password):
+        self.user_username = user_username
+        self.user_password = user_password
 
     def save(self):
         db.session.add(self)
