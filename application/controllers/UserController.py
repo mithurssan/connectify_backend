@@ -14,6 +14,13 @@ class UserController:
         return User.get_by_id(user_id)
 
 
+    @staticmethod
+    def update_user(user_id, username, password):
+        user = User.get_by_id(user_id)
+        if user:
+            user.username = username
+            user.password = password
+            user.update()
 
 
     def delete_user(user_id):

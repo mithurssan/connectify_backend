@@ -39,7 +39,13 @@ def register():
 
 
 
-
+@user.route('/update/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    UserController.update_user(user_id, username, password)
+    return jsonify({"message": "User updated successfully"})
 
 @user.route('/delete/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
