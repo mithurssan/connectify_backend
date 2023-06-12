@@ -1,4 +1,3 @@
-# from decouple import config
 from flask import Flask, jsonify
 
 # from decouple import config
@@ -14,7 +13,6 @@ CORS(app)
 app.config["SECRET_KEY"] = environ.get("KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
 app.config["APP_SETTINGS"] = environ.get("APP_SETTINGS")
-# app.config.from_object(config("APP_SETTINGS"))
 login_manager = LoginManager()
 login_manager.init_app(app)
 bcrypt = Bcrypt(app)
@@ -30,7 +28,6 @@ def load_user(user_id):
 
 
 from application.routes import UsersRoutes
-from application.routes import CompaniesHouseProxy
 
 
 @app.route("/")
@@ -39,4 +36,3 @@ def index():
 
 
 app.register_blueprint(UsersRoutes.user, url_prefix="/users")
-app.register_blueprint(CompaniesHouseProxy.proxy, url_prefix="/api")
