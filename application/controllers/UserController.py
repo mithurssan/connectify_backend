@@ -8,3 +8,10 @@ class UserController:
 
     def get_all_users():
         return User.get_all()
+
+    @staticmethod
+    def get_one_by_user_id(user_id):
+        return User.get_by_id(user_id)
+
+
+   

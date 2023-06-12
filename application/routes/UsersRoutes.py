@@ -18,6 +18,17 @@ def format_users(user):
         "password": user.password
     }
 
+
+@user.route('/<user_id>', methods=['GET'])
+def get_user_by_id(user_id):
+    user = UserController.get_one_by_user_id(user_id)
+    if user:
+        return jsonify(format_users(user))
+    else:
+        return jsonify({'message': 'User not found'})
+
+
+
 @user.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -25,3 +36,8 @@ def register():
     password = data.get('password')
     UserController.register_user(username, password)
     return jsonify({"username":username, "password":password})
+
+
+
+
+
