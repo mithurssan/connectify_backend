@@ -40,3 +40,15 @@ def get_user_by_id(holiday_id):
         return jsonify(format_holidays(user))
     else:
         return jsonify({'message': 'User not found'})
+
+
+@holiday.route('/update/<int:holiday_id>', methods=['PUT'])
+def update_holiday(holiday_id):
+    data = request.json
+    business_id = data['business_id']
+    user_id = data['user_id']
+    holiday_start_date = data['holiday_start_date']
+    holiday_end_date = data['holiday_end_date']
+    holiday_status = data['holiday_status']
+    HolidayController.update_holiday(holiday_id, business_id, user_id, holiday_start_date, holiday_end_date, holiday_status)
+    return jsonify({"message": "User updated successfully"})
