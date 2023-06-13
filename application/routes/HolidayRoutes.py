@@ -33,3 +33,10 @@ def create_holiday():
     HolidayController.book_holiday(business_id, user_id, holiday_start_date, holiday_end_date, holiday_status)
     return jsonify({'message': 'Holiday booked.'})
 
+@holiday.route('/<holiday_id>', methods=['GET'])
+def get_user_by_id(holiday_id):
+    user = HolidayController.get_one_by_user_id(holiday_id)
+    if user:
+        return jsonify(format_holidays(user))
+    else:
+        return jsonify({'message': 'User not found'})

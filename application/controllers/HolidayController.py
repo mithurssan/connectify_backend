@@ -8,3 +8,15 @@ class HolidayController:
 
     def get_all_holidays():
         return Holiday.get_all()
+
+    @staticmethod
+    def get_one_by_user_id(user_id):
+        return Holiday.get_by_id(user_id)
+
+    @staticmethod
+    def update_user(holiday_id, business_id, user_id, holiday_start_date, holiday_end_date, holiday_status):
+        user = Holiday.get_by_id(user_id)
+        if user:
+            user.username = username
+            user.password = password
+            user.update()

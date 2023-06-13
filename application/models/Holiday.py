@@ -30,3 +30,10 @@ class Holiday(db.Model):
     @staticmethod
     def get_all():
         return Holiday.query.all()
+
+    @staticmethod
+    def get_by_id(user_id):
+        return Holiday.query.get(user_id)
+
+    def update(self):
+        db.session.commit()
