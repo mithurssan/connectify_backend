@@ -17,6 +17,9 @@ flask-bcrypt = "*"
 flask-migrate = "*"
 python-decouple = "*"
 uuid = "*"
+pytest = "*"
+"testing.postgresql" = "*"
+pytest-cov = "*"
 
 [scripts]
 dev="flask run"
