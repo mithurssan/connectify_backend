@@ -23,3 +23,8 @@ class HolidayController:
             holiday.holiday_end_date = holiday_end_date
             holiday.holiday_status = holiday_status
             holiday.update()
+
+    def delete_holiday(holiday_id):
+        holiday = Holiday.get_by_id(holiday_id)
+        if holiday:
+            holiday.delete()

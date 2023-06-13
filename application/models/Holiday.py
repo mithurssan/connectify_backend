@@ -37,3 +37,8 @@ class Holiday(db.Model):
 
     def update(self):
         db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+

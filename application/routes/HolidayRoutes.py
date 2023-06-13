@@ -52,3 +52,9 @@ def update_holiday(holiday_id):
     holiday_status = data['holiday_status']
     HolidayController.update_holiday(holiday_id, business_id, user_id, holiday_start_date, holiday_end_date, holiday_status)
     return jsonify({"message": "User updated successfully"})
+
+
+@holiday.route('/delete/<int:holiday_id>', methods=['DELETE'])
+def delete_holiday(holiday_id):
+    HolidayController.delete_holiday(holiday_id)
+    return jsonify({"message": "User deleted successfully"})
