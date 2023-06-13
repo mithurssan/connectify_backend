@@ -11,6 +11,8 @@ CORS(app)
 app.config["SECRET_KEY"] = environ.get("KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
 # app.config.from_object(config("APP_SETTINGS"))
+
+
 SQLALCHEMY_TRACK_NOTIFICATIONS = False
 SQLALCHEMY_ECHO = True
 

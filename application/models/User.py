@@ -16,10 +16,22 @@ class User(db.Model):
         self.user_username = user_username
         self.user_password = user_password
 
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
     @staticmethod
     def get_all():
         return User.query.all()
+      
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        
+    @staticmethod
+    def get_by_id(user_id):
+        return User.query.get(user_id)
+
+    def update(self):
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
