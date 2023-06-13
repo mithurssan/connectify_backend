@@ -7,6 +7,7 @@ class Holiday(db.Model):
     business_id = db.Column(
         db.String(32), db.ForeignKey("businesses.business_id"), nullable=False
     )
+
     user_id = db.Column(db.String(32), db.ForeignKey("users.user_id"), nullable=False)
     holiday_start_date = db.Column(db.String(50), nullable=False)
     holiday_end_date = db.Column(db.String(50), nullable=False)

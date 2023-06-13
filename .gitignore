@@ -1,6 +1,6 @@
 .flaskenv
-Pipfile
-Pipfile.lock
+.coverage
+.pytest_cache/
 __pycache__
-
 myenv
+
