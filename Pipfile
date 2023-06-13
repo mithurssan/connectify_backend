@@ -16,6 +16,7 @@ flask-login = "*"
 flask-bcrypt = "*"
 flask-migrate = "*"
 python-decouple = "*"
+uuid = "*"
 
 [scripts]
 dev="flask run"
