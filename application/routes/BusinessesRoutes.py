@@ -9,7 +9,7 @@ business = Blueprint("business", __name__)
 
 @business.route("/")
 def get_businesses():
-    businesses = BusinessController.get_all_users()
+    businesses = BusinessController.get_all_businesses()
     business_list = []
     for business in businesses:
         business_list.append(format_business(business))
@@ -53,6 +53,8 @@ def register_business():
     data = request.json
     # print(data)
     business_name = data.get("business_name")
+    email = data.get("business_email")
+    number = data.get("business_number")
     password = data.get("business_password")
 
     business_exist = (
@@ -64,13 +66,23 @@ def register_business():
 
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     new_business = Business(
-        business_name=business_name, business_password=hashed_password
+        business_name=business_name,
+        business_password=hashed_password,
+        business_email=email,
+        business_number=number,
     )
 
     session["user_id"] = new_business.business_id
 
-    BusinessController.register_business(business_name, hashed_password)
-    return jsonify({"business_name": business_name, "password": hashed_password})
+    BusinessController.register_business(business_name, hashed_password, email, number)
+    return jsonify(
+        {
+            "business_name": business_name,
+            "password": hashed_password,
+            "number": number,
+            "email": email,
+        }
+    )
 
 
 @business.route("/login", methods=["POST"])

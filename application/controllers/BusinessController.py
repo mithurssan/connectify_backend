@@ -3,8 +3,8 @@ from application.models import Business
 
 class BusinessController:
     @staticmethod
-    def register_business(business_name, password):
-        business = Business(business_name, password)
+    def register_business(business_name, number, email, password):
+        business = Business(business_name, number, email, password)
         print(business)
 
         business.save()
