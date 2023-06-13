@@ -20,6 +20,7 @@ def format_users(user):
     return {
         "id": user.user_id,
         "username": user.user_username,
+        "email": user.user_email,
         "password": user.user_password,
     }
 
@@ -37,8 +38,9 @@ def get_user_by_id(user_id):
 def update_user(user_id):
     data = request.json
     username = data.get("username")
+    email = data.get("email")
     password = data.get("password")
-    UserController.update_user(user_id, username, password)
+    UserController.update_user(user_id, username, email, password)
     return jsonify({"message": "User updated successfully"})
 
 
@@ -53,6 +55,7 @@ def register_user():
     data = request.json
     # print(data)
     username = data.get("user_username")
+    email = data.get("user_email")
     password = data.get("user_password")
 
     user_exist = User.query.filter_by(user_username=username).first() is not None
@@ -61,12 +64,14 @@ def register_user():
         return jsonify({"error": "Username already exist"})
 
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
-    new_user = User(user_username=username, user_password=hashed_password)
+    new_user = User(
+        user_username=username, user_email=email, user_password=hashed_password
+    )
 
     session["user_id"] = new_user.user_id
 
-    UserController.register_user(username, hashed_password)
-    return jsonify({"username": username, "password": hashed_password})
+    UserController.register_user(username, email, hashed_password)
+    return jsonify({"username": username, "email": email, "password": hashed_password})
 
 
 @user.route("/login", methods=["POST"])
