@@ -24,7 +24,12 @@ from application.models import User
 from application.models import Business
 from application.models import Holiday
 
-from application.routes import UsersRoutes, CompaniesHouseProxy, HolidayRoutes
+from application.routes import (
+    UsersRoutes,
+    CompaniesHouseProxy,
+    BusinessesRoutes,
+    HolidayRoutes,
+)
 
 
 @app.route("/")
@@ -34,4 +39,5 @@ def index():
 
 app.register_blueprint(UsersRoutes.user, url_prefix="/users")
 app.register_blueprint(CompaniesHouseProxy.proxy, url_prefix="/api")
+app.register_blueprint(BusinessesRoutes.business, url_prefix="/businesses")
 app.register_blueprint(HolidayRoutes.holiday, url_prefix="/bookings")
