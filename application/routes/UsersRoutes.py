@@ -13,9 +13,9 @@ def get_users():
 
 def format_users(user):
     return {
-        "id": user.id,
-        "username": user.username,
-        "password": user.password
+        "id": user.user_id,
+        "username": user.user_username,
+        "password": user.user_password
     }
 
 
@@ -32,8 +32,9 @@ def get_user_by_id(user_id):
 @user.route('/register', methods=['POST'])
 def register():
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    print(data)
+    username = data.get('user_username')
+    password = data.get('user_password')
     UserController.register_user(username, password)
     return jsonify({"username":username, "password":password})
 
