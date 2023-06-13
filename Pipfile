@@ -16,9 +16,15 @@ flask-login = "*"
 flask-bcrypt = "*"
 flask-migrate = "*"
 python-decouple = "*"
+uuid = "*"
+pytest = "*"
+"testing.postgresql" = "*"
+pytest-cov = "*"
+
 
 [scripts]
 dev="flask run"
+coverage = "pytest --cov-report term-missing --cov=."
 
 [dev-packages]
 
