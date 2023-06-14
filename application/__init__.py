@@ -22,13 +22,14 @@ SQLALCHEMY_ECHO = True
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
-from application.models import User, Business, Holiday
+from application.models import User, Business, Holiday, Journal
 
 from application.routes import (
     UsersRoutes,
     CompaniesHouseProxy,
     BusinessesRoutes,
     HolidayRoutes,
+    JournalRoutes
 )
 
 with app.app_context():
@@ -43,3 +44,4 @@ app.register_blueprint(UsersRoutes.user, url_prefix="/users")
 app.register_blueprint(CompaniesHouseProxy.proxy, url_prefix="/api")
 app.register_blueprint(BusinessesRoutes.business, url_prefix="/businesses")
 app.register_blueprint(HolidayRoutes.holiday, url_prefix="/bookings")
+app.register_blueprint(JournalRoutes.entry, url_prefix="/entries")

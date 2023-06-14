@@ -29,3 +29,12 @@ def mock_user():
         "user_username": "test",
         "user_password": "pass"
     }
+
+@pytest.fixture
+def mock_journal_entry():
+    return {
+        "user_id": 1,
+        "entry_date": "14-06-2023",
+        "entry_title": "First Entry",
+        "entry_content": "hello there, this is my first journal entry!"
+    }
