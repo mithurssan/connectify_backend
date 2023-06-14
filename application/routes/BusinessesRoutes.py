@@ -2,12 +2,13 @@ from application.controllers import BusinessController
 from application.models import Business
 from flask import Blueprint, request, jsonify, session
 from application import bcrypt
-
+from flask_jwt_extended import jwt_required
 
 business = Blueprint("business", __name__)
 
 
 @business.route("/")
+@jwt_required()
 def get_businesses():
     businesses = BusinessController.get_all_businesses()
     business_list = []

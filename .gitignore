@@ -2,5 +2,6 @@
 Pipfile
 Pipfile.lock
 __pycache__
+.env
 
 myenv
