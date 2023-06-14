@@ -9,7 +9,13 @@ app = Flask(__name__)
 CORS(app)
 
 app.config["SECRET_KEY"] = environ.get("KEY")
-app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
+
+if environ.get("USE_MOCK_DB") == "True":
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
+# app.config["SECRET_KEY"] = environ.get("KEY")
+# app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
 # app.config.from_object(config("APP_SETTINGS"))
 
 
