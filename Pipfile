@@ -18,7 +18,6 @@ flask-migrate = "*"
 python-decouple = "*"
 uuid = "*"
 pytest = "*"
-"testing.postgresql" = "*"
 pytest-cov = "*"
 
 [scripts]
