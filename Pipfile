@@ -18,6 +18,7 @@ flask-migrate = "*"
 python-decouple = "*"
 uuid = "*"
 flask-jwt-extended = "*"
+flask-mail = "*"
 
 [scripts]
 dev="flask run"

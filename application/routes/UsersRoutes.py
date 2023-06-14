@@ -119,10 +119,3 @@ def login_user():
     session["user_id"] = user.user_id
 
     return jsonify({"username": username, "token": access_token})
-
-
-@user.route("/logout", methods=["POST"])
-def logout():
-    response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
-    return response
