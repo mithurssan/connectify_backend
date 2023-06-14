@@ -10,7 +10,7 @@ class HolidayController:
         return Holiday.get_all()
 
     @staticmethod
-    def get_one_by_user_id(holiday_id):
+    def get_one_by_holiday_id(holiday_id):
         return Holiday.get_by_id(holiday_id)
 
     @staticmethod

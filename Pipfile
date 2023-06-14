@@ -23,6 +23,7 @@ pytest-cov = "*"
 
 [scripts]
 dev="flask run"
+coverage="pytest --cov-report term-missing --cov=."
 
 [dev-packages]
 
