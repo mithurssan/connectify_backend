@@ -17,8 +17,11 @@ flask-bcrypt = "*"
 flask-migrate = "*"
 python-decouple = "*"
 uuid = "*"
+flask-jwt-extended = "*"
+flask-mail = "*"
 pytest = "*"
 pytest-cov = "*"
+
 
 [scripts]
 dev="flask run"

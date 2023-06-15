@@ -1,13 +1,23 @@
+import json
 from application.controllers import UserController
 from application.models import User
 from flask import Blueprint, request, jsonify, session
 from application import bcrypt
+from datetime import datetime, timedelta, timezone
+from flask_jwt_extended import (
+    create_access_token,
+    unset_jwt_cookies,
+    get_jwt_identity,
+    get_jwt,
+    jwt_required,
+)
 
 
 user = Blueprint("user", __name__)
 
 
 @user.route("/")
+@jwt_required()
 def get_users():
     users = UserController.get_all_users()
     user_list = []
@@ -74,6 +84,24 @@ def register_user():
     return jsonify({"username": username, "email": email, "password": hashed_password})
 
 
+@user.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response
+
+
 @user.route("/login", methods=["POST"])
 def login_user():
     data = request.json
@@ -87,7 +115,7 @@ def login_user():
 
     if not bcrypt.check_password_hash(user.user_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-
+    access_token = create_access_token(identity=username)
     session["user_id"] = user.user_id
 
-    return jsonify({"username": username})
+    return jsonify({"username": username, "token": access_token})
