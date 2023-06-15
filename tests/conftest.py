@@ -33,8 +33,17 @@ def mock_user():
 @pytest.fixture
 def mock_journal_entry():
     return {
-        "user_id": 1,
+        "user_id": "test_user",
         "entry_date": "14-06-2023",
         "entry_title": "First Entry",
         "entry_content": "hello there, this is my first journal entry!"
+    }
+
+@pytest.fixture
+def mock_rota():
+    return {
+        "business_id":"test_business",
+        "rota_start_date": "15-06-2023",
+        "rota_end_date": "20-06-2023",
+        "rota_content": "Assigned to user: test"
     }

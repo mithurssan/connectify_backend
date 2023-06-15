@@ -1,12 +1,24 @@
+#POST holiday booking test
+def test_create_booking(client, mock_booking):
+    res = client.post("/bookings/book", json=mock_booking)
+    assert res.status_code == 200
+
 #GET all holiday bookings test
 def test_get_all_bookings(client):
     res = client.get("/bookings/")
     assert res.status_code == 200
 
-#POST holiday booking test
-def test_create_booking(client, mock_booking):
-    res = client.post("/bookings/book", json=mock_booking)
-    assert res.status_code == 200
+    expected_booking = [
+        {
+            "business_id": "test_business_id",
+            "holiday_end_date": "2nd of Feb",
+            "holiday_id": 1,
+            "holiday_start_date": "1st of Jan",
+            "holiday_status": "on holiday",
+            "user_id": "test_user_id",
+        }
+    ]
+    assert res.json == expected_booking
 
 #GET holiday booking by id test
 def test_get_booking_by_id(client):

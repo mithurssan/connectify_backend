@@ -26,8 +26,8 @@ class User(db.Model):
 
     @staticmethod
     def get_by_id(user_id):
-        return User.query.get(user_id)
-
+        return db.session.get(User, user_id)
+    
     def update(self):
         db.session.commit()
 

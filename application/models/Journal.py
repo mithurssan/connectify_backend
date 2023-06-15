@@ -24,7 +24,7 @@ class Journal(db.Model):
 
     @staticmethod
     def get_by_id(entry_id):
-        return Journal.query.get(entry_id)
+        return db.session.get(Journal, entry_id)
 
     def update(self):
         db.session.commit()
