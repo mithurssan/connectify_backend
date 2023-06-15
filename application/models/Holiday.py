@@ -1,12 +1,9 @@
 from application import db
 
-
 class Holiday(db.Model):
     __tablename__ = "holiday_bookings"
     holiday_id = db.Column(db.Integer, primary_key=True)
-    business_id = db.Column(
-        db.String(32), db.ForeignKey("businesses.business_id"), nullable=False
-    )
+    business_id = db.Column(db.String(32), db.ForeignKey("businesses.business_id"), nullable=False)
 
     user_id = db.Column(db.String(32), db.ForeignKey("users.user_id"), nullable=False)
     holiday_start_date = db.Column(db.String(50), nullable=False)
@@ -15,9 +12,7 @@ class Holiday(db.Model):
     business = db.relationship("Business", backref="holiday_bookings")
     user = db.relationship("User", backref="holiday_bookings")
 
-    def __init__(
-        self, business_id, user_id, holiday_start_date, holiday_end_date, holiday_status
-    ):
+    def __init__(self, business_id, user_id, holiday_start_date, holiday_end_date, holiday_status):
         self.business_id = business_id
         self.user_id = user_id
         self.holiday_start_date = holiday_start_date
@@ -34,7 +29,7 @@ class Holiday(db.Model):
 
     @staticmethod
     def get_by_id(holiday_id):
-        return Holiday.query.get(holiday_id)
+        return db.session.get(Holiday, holiday_id)
 
     def update(self):
         db.session.commit()
