@@ -1,12 +1,23 @@
+#POST journal entry test
+def test_create_entry(client, mock_journal_entry):
+    res = client.post("/entries/add", json=mock_journal_entry)
+    assert res.status_code == 200
+
 #GET all journal entries test
 def test_get_all_entrys(client):
     res = client.get("/entries/")
     assert res.status_code == 200
 
-#POST journal entry test
-def test_create_entry(client, mock_journal_entry):
-    res = client.post("/entries/add", json=mock_journal_entry)
-    assert res.status_code == 200
+    expected_entry = [
+        {
+            "entry_content": "hello there, this is my first journal entry!",
+            "entry_date": "14-06-2023",
+            "entry_id": 1,
+            "entry_title": "First Entry",
+            "user_id": "test_user",
+        }
+    ]
+    assert res.json == expected_entry
 
 #GET journal entry by id test
 def test_get_entry_by_id(client):
