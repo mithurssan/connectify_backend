@@ -1,10 +1,6 @@
-from application import app, db
+from application import app
 
-app.app_context().push()
-
-with app.app_context():
-    db.create_all()
-    print("Database tables created.")
+# app.app_context().push()
 
 if __name__ == '__main__':
     app.run()

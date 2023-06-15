@@ -7,6 +7,7 @@ class Holiday(db.Model):
     business_id = db.Column(
         db.String(32), db.ForeignKey("businesses.business_id"), nullable=False
     )
+
     user_id = db.Column(db.String(32), db.ForeignKey("users.user_id"), nullable=False)
     holiday_start_date = db.Column(db.String(50), nullable=False)
     holiday_end_date = db.Column(db.String(50), nullable=False)
@@ -30,3 +31,15 @@ class Holiday(db.Model):
     @staticmethod
     def get_all():
         return Holiday.query.all()
+
+    @staticmethod
+    def get_by_id(holiday_id):
+        return Holiday.query.get(holiday_id)
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
