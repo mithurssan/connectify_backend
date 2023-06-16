@@ -29,10 +29,10 @@ def get_users():
 
 def format_users(user):
     return {
-        "id": user.user_id,
-        "username": user.user_username,
-        "email": user.user_email,
-        "password": user.user_password,
+        "user_id": user.user_id,
+        "user_username": user.user_username,
+        "user_email": user.user_email,
+        "user_password": user.user_password,
     }
 
 
@@ -42,20 +42,17 @@ def get_user_by_id(user_id):
     if user:
         return jsonify(format_users(user))
     else:
-        return jsonify({"message": "User not found"})
+        return jsonify({"message": "User not found"}), 404
 
 
-@user.route("/update/<int:user_id>", methods=["PUT"])
+@user.route("/update/<string:user_id>", methods=["PATCH"])
 def update_user(user_id):
     data = request.json
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
-    UserController.update_user(user_id, username, email, password)
+    UserController.update_user(user_id, data)
     return jsonify({"message": "User updated successfully"})
 
 
-@user.route("/delete/<int:user_id>", methods=["DELETE"])
+@user.route("/delete/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     UserController.delete_user(user_id)
     return jsonify({"message": "User deleted successfully"})
@@ -116,17 +113,17 @@ def refresh_expiring_jwts(response):
 @user.route("/login", methods=["POST"])
 def login_user():
     data = request.json
-    username = data.get("user_username")
+    user_username = data.get("user_username")
     password = data.get("user_password")
 
-    user = User.query.filter_by(user_username=username).first()
+    user = User.query.filter_by(user_username=user_username).first()
 
     if user is None:
         return jsonify({"error": "Unauthorized access"}), 401
 
     if not bcrypt.check_password_hash(user.user_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=user_username)
     session["user_id"] = user.user_id
 
     response = requests.get(
@@ -138,4 +135,4 @@ def login_user():
         },
     )
 
-    return jsonify({"username": username, "token": access_token}), response.json()
+    return jsonify({"username": user_username, "token": access_token}), response.json()

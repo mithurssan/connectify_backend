@@ -50,6 +50,8 @@ from application.routes import (
     BusinessesRoutes,
     HolidayRoutes,
     JournalRoutes,
+    RotaRoutes,
+    PostRoutes,
 )
 
 with app.app_context():
@@ -118,3 +120,5 @@ app.register_blueprint(CompaniesHouseProxy.proxy, url_prefix="/api")
 app.register_blueprint(BusinessesRoutes.business, url_prefix="/businesses")
 app.register_blueprint(HolidayRoutes.holiday, url_prefix="/bookings")
 app.register_blueprint(JournalRoutes.entry, url_prefix="/entries")
+app.register_blueprint(RotaRoutes.rota, url_prefix="/rotas")
+app.register_blueprint(PostRoutes.post, url_prefix="/posts")
