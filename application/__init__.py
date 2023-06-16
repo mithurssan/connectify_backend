@@ -41,7 +41,6 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 
-
 from application.models import User, Business, Holiday, Journal
 
 
@@ -50,17 +49,17 @@ from application.routes import (
     CompaniesHouseProxy,
     BusinessesRoutes,
     HolidayRoutes,
-    JournalRoutes
+    JournalRoutes,
 )
 
 with app.app_context():
     db.create_all()
     print("Database tables created.")
 
+
 @app.route("/")
 def index():
     return jsonify({"message": "Welcome to the Connectify backend!"})
-
 
 
 @app.route("/logout", methods=["POST"])
@@ -70,6 +69,7 @@ def logout():
     return response
 
 
+# USER
 @app.route("/verify-email", methods=["POST"])
 def verify_email():
     email = request.json["user_email"]
@@ -77,23 +77,40 @@ def verify_email():
 
     send_verification_email(email, token)
 
-    return jsonify({"message": "Verification email sent"})
+    return jsonify({"message": "Verification email sent - user"})
 
 
 def send_verification_email(email, token):
     verification_link = f"http://localhost:5173/verify/{token}"
 
     msg = mail.send_message(
-        "Verify your email",
+        "USER - Verify your email",
         sender=environ.get("EMAIL"),
         recipients=[email],
         body=f"Click the following link to verify your email: {verification_link}",
     )
 
-    # msg = Message("Email Verification", recipients=[email])
 
-    # msg.body = f"Click the following link to verify your email: {verification_link}"
-    # mail.send(msg)
+# BUSINESS
+@app.route("/verify-business-email", methods=["POST"])
+def verify_business_email():
+    email = request.json["business_email"]
+    token = create_access_token(identity=email)
+
+    send_verification_email_business(email, token)
+
+    return jsonify({"message": "Verification email sent - business"})
+
+
+def send_verification_email_business(email, token):
+    verification_link = f"http://localhost:5173/verify-business/{token}"
+
+    msg = mail.send_message(
+        "BUSINESS - Verify your email",
+        sender=environ.get("EMAIL"),
+        recipients=[email],
+        body=f"Click the following link to verify your business email: {verification_link}",
+    )
 
 
 app.register_blueprint(UsersRoutes.user, url_prefix="/users")

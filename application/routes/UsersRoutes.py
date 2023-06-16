@@ -1,4 +1,6 @@
 import json
+import requests
+from os import environ
 from application.controllers import UserController
 from application.models import User
 from flask import Blueprint, request, jsonify, session
@@ -11,7 +13,6 @@ from flask_jwt_extended import (
     get_jwt,
     jwt_required,
 )
-
 
 user = Blueprint("user", __name__)
 
@@ -69,10 +70,8 @@ def register_user():
     password = data.get("user_password")
 
     user_exist = User.query.filter_by(user_username=username).first() is not None
-
     if user_exist:
         return jsonify({"error": "Username already exist"})
-
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     new_user = User(
         user_username=username, user_email=email, user_password=hashed_password
@@ -81,7 +80,19 @@ def register_user():
     session["user_id"] = new_user.user_id
 
     UserController.register_user(username, email, hashed_password)
+
+    # response = requests.post(
+    #     "https://api.chatengine.io/users/",
+    #     data={
+    #         "username": request.get_json()["user_username"],
+    #         "secret": request.get_json()["user_password"],
+    #         "email": request.get_json()["user_email"],
+    #     },
+    #     headers={"Private-Key": "7f306ed8-bf91-4841-b5e1-f9bf00e39ddf"},
+    # )
+
     return jsonify({"username": username, "email": email, "password": hashed_password})
+    # response.json()
 
 
 @user.after_request
@@ -118,4 +129,13 @@ def login_user():
     access_token = create_access_token(identity=username)
     session["user_id"] = user.user_id
 
-    return jsonify({"username": username, "token": access_token})
+    response = requests.get(
+        "https://api.chatengine.io/users/me/",
+        headers={
+            "Project-ID": "7f8e7fee-521a-4f50-8d9a-9028fc529c34",
+            "User-Name": request.get_json()["user_username"],
+            "User-Secret": request.get_json()["user_password"],
+        },
+    )
+
+    return jsonify({"username": username, "token": access_token}), response.json()
