@@ -4,6 +4,7 @@ from os import environ
 #set env value to use mock sqlite db for testing
 environ["USE_MOCK_DB"] = "True"
 from application import app 
+app.config["SECRET_KEY"] = "test_secret_key"
 
 #use app as test_client
 @pytest.fixture()
@@ -46,4 +47,13 @@ def mock_rota():
         "rota_start_date": "15-06-2023",
         "rota_end_date": "20-06-2023",
         "rota_content": "Assigned to user: test"
+    }
+
+@pytest.fixture
+def mock_business():
+    return {
+        "business_email": "test@gmail.com",
+        "business_name": "testBusiness",
+        "business_number": 1,
+        "business_password": "pass"
     }

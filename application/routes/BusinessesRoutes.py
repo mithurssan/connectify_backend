@@ -2,7 +2,7 @@ from application.controllers import BusinessController
 from application.models import Business
 from flask import Blueprint, request, jsonify, session
 from application import bcrypt
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, create_access_token
 
 business = Blueprint("business", __name__)
 
@@ -19,33 +19,35 @@ def get_businesses():
 
 def format_business(business):
     return {
-        "id": business.business_id,
+        "business_id": business.business_id,
+        "business_email": business.business_email,
         "business_name": business.business_name,
-        "password": business.business_password,
+        "business_password": business.business_password,
     }
 
 
-@business.route("/<business_id>", methods=["GET"])
+@business.route("/<string:business_id>", methods=["GET"])
 def get_business_by_id(business_id):
     business = BusinessController.get_one_by_business_id(business_id)
     if business:
         return jsonify(format_business(business))
     else:
-        return jsonify({"message": "Business not found"})
+        return jsonify({"message": "Business not found"}), 404
 
 
-@business.route("/update/<int:business_id>", methods=["PUT"])
+@business.route("/update/<string:business_id>", methods=["PUT"])
 def update_business(business_id):
     data = request.json
-    business_name = data.get("business_name")
-    password = data.get("password")
-    BusinessController.update_user(business_id, business_name, password)
+    business_email = data['business_email']
+    business_name = data['business_name']
+    business_password = data['business_password']
+    BusinessController.update_business(business_id, business_email, business_name, business_password)
     return jsonify({"message": "Business updated successfully"})
 
 
-@business.route("/delete/<int:business_id>", methods=["DELETE"])
+@business.route("/delete/<string:business_id>", methods=["DELETE"])
 def delete_business(business_id):
-    BusinessController.delete_user(business_id)
+    BusinessController.delete_business(business_id)
     return jsonify({"message": "Business deleted successfully"})
 
 
@@ -53,35 +55,35 @@ def delete_business(business_id):
 def register_business():
     data = request.json
     # print(data)
+    business_email = data.get("business_email")
     business_name = data.get("business_name")
-    email = data.get("business_email")
-    number = data.get("business_number")
-    password = data.get("business_password")
+    business_number = data.get("business_number")
+    business_password = data.get("business_password")
 
     business_exist = (
         Business.query.filter_by(business_name=business_name).first() is not None
     )
 
     if business_exist:
-        return jsonify({"error": "Business already exist"})
+        return jsonify({"error": "Business already exists"})
 
-    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+    hashed_password = bcrypt.generate_password_hash(business_password).decode("utf-8")
     new_business = Business(
         business_name=business_name,
         business_password=hashed_password,
-        business_email=email,
-        business_number=number,
+        business_email=business_email,
+        business_number=business_number,
     )
 
     session["user_id"] = new_business.business_id
 
-    BusinessController.register_business(business_name, hashed_password, email, number)
+    BusinessController.register_business(business_name, hashed_password, business_email, business_number)
     return jsonify(
         {
             "business_name": business_name,
-            "password": hashed_password,
-            "number": number,
-            "email": email,
+            "business_password": business_password,
+            "business_number": business_number,
+            "business_email": business_email,
         }
     )
 
@@ -99,7 +101,7 @@ def login_business():
 
     if not bcrypt.check_password_hash(business.business_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-
+    access_token = create_access_token(identity=business_name)
     session["business_id"] = business.business_id
 
-    return jsonify({"business_name": business_name})
+    return jsonify({"business_id": business.business_id, "business_name": business_name, "token": access_token})
