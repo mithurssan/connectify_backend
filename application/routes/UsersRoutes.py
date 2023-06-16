@@ -11,10 +11,7 @@ from flask_jwt_extended import (
     get_jwt,
     jwt_required,
 )
-
-
 user = Blueprint("user", __name__)
-
 
 @user.route("/")
 @jwt_required()
@@ -25,7 +22,6 @@ def get_users():
         user_list.append(format_users(user))
     return jsonify(user_list), 200
 
-
 def format_users(user):
     return {
         "user_id": user.user_id,
@@ -34,31 +30,24 @@ def format_users(user):
         "user_password": user.user_password,
     }
 
-
 @user.route("/<user_id>", methods=["GET"])
 def get_user_by_id(user_id):
     user = UserController.get_one_by_user_id(user_id)
     if user:
         return jsonify(format_users(user))
     else:
-        return jsonify({"message": "User not found"})
+        return jsonify({"message": "User not found"}), 404
 
-
-@user.route("/update/<string:user_id>", methods=["PUT"])
+@user.route("/update/<string:user_id>", methods=["PATCH"])
 def update_user(user_id):
     data = request.json
-    user_username = data.get("user_username")
-    user_email = data.get("user_email")
-    user_password = data.get("user_password")
-    UserController.update_user(user_id, user_username, user_email, user_password)
+    UserController.update_user(user_id, data)
     return jsonify({"message": "User updated successfully"})
-
 
 @user.route("/delete/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     UserController.delete_user(user_id)
     return jsonify({"message": "User deleted successfully"})
-
 
 @user.route("/register", methods=["POST"])
 def register_user():
@@ -83,7 +72,6 @@ def register_user():
     UserController.register_user(username, email, hashed_password)
     return jsonify({"user_username": username, "user_email": email, "user_password": hashed_password})
 
-
 @user.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -101,21 +89,20 @@ def refresh_expiring_jwts(response):
         # Case where there is not a valid JWT. Just return the original response
         return response
 
-
 @user.route("/login", methods=["POST"])
 def login_user():
     data = request.json
-    username = data.get("user_username")
+    user_username = data.get("user_username")
     password = data.get("user_password")
 
-    user = User.query.filter_by(user_username=username).first()
+    user = User.query.filter_by(user_username=user_username).first()
 
     if user is None:
         return jsonify({"error": "Unauthorized access"}), 401
 
     if not bcrypt.check_password_hash(user.user_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=user_username)
     session["user_id"] = user.user_id
 
-    return jsonify({"user_id" : user.user_id, "username": username, "token": access_token})
+    return jsonify({"user_id": user.user_id, "user_name": user_username, "token": access_token})
