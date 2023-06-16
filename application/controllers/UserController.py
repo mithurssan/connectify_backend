@@ -1,4 +1,5 @@
 from application.models import User
+from application import bcrypt
 
 class UserController:
     def register_user(username, email, password):
@@ -11,13 +12,15 @@ class UserController:
     def get_one_by_user_id(user_id):
         return User.get_by_id(user_id)
 
-    def update_user(user_id, user_username, user_email, user_password):
+    def update_user(user_id, data):
         user = User.get_by_id(user_id)
-        if user:
-            user.user_username = user_username
-            user.user_email = user_email
-            user.user_password = user_password
-            user.update()
+        if "user_email" in data:
+            user.user_email = data["user_email"]
+        elif "user_username" in data:
+            user.user_username = data["user_username"]
+        elif "user_password" in data:
+            user.user_password = data["user_password"]
+        user.update()
 
     def delete_user(user_id):
         user = User.get_by_id(user_id)

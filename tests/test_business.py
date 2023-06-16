@@ -35,6 +35,16 @@ def test_login_business(client, mock_business):
     res = client.post("/businesses/login", json=mock_business)
     assert res.status_code == 200
 
+#POST wrong username login test
+def test_business_login_wrong_username(client, mock_wrong_business_username):
+    res = client.post("/businesses/login", json=mock_wrong_business_username)
+    assert res.status_code == 401
+
+#POST wrong password login test
+def test_business_login_wrong_password(client, mock_wrong_business_password):
+    res = client.post("/businesses/login", json=mock_wrong_business_password)
+    assert res.status_code == 401
+
 #GET business by id test
 def test_get_business_by_id(client, mock_business):
     #login and get id

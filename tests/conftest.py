@@ -32,6 +32,23 @@ def mock_user():
     }
 
 @pytest.fixture
+def mock_wrong_user_username():
+    return {
+        "user_email": "test@gmail.com",
+        "user_username": "test55",
+        "user_password": "pass"
+    }
+
+@pytest.fixture
+def mock_wrong_user_password():
+    return {
+        "user_email": "test@gmail.com",
+        "user_username": "test",
+        "user_password": "pass123"
+    }
+
+
+@pytest.fixture
 def mock_journal_entry():
     return {
         "user_id": "test_user",
@@ -56,4 +73,31 @@ def mock_business():
         "business_name": "testBusiness",
         "business_number": 1,
         "business_password": "pass"
+    }
+
+@pytest.fixture
+def mock_wrong_business_username():
+    return {
+        "business_email": "test@gmail.com",
+        "business_name": "testBusiness55",
+        "business_number": 1,
+        "business_password": "pass"
+    }
+
+@pytest.fixture
+def mock_wrong_business_password():
+    return {
+        "business_email": "test@gmail.com",
+        "business_name": "testBusiness",
+        "business_number": 1,
+        "business_password": "pass44"
+    }
+
+@pytest.fixture
+def mock_post():
+    return {
+        "user_id": "test_user",
+        "business_id": "business_id",
+        "post_title": "first_post",
+        "post_content":"post_content"
     }
