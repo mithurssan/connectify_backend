@@ -57,3 +57,12 @@ def mock_business():
         "business_number": 1,
         "business_password": "pass"
     }
+
+@pytest.fixture
+def mock_post():
+    return {
+        "user_id": "test_user",
+        "business_id": "business_id",
+        "post_title": "first_post",
+        "post_content":"post_content"
+    }
