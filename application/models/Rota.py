@@ -1,5 +1,4 @@
 from application import db
-from . import Business
 
 class Rota(db.Model):
     __tablename__ = "rotas"
