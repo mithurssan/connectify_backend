@@ -21,6 +21,13 @@ class UserController:
         elif "user_password" in data:
             user.user_password = data["user_password"]
         user.update()
+    
+    def add_user_to_business(username, data):
+        user = User.query.filter_by(user_username=username).first()
+        if user:
+            if "business_id" in data:
+                user.business_id = data["business_id"]
+            user.update()
 
     def delete_user(user_id):
         user = User.get_by_id(user_id)

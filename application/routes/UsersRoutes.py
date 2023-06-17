@@ -44,6 +44,12 @@ def update_user(user_id):
     UserController.update_user(user_id, data)
     return jsonify({"message": "User updated successfully"})
 
+@user.route("/update/business/<string:username>", methods=["PATCH"])
+def add_user_to_business(username):
+    data = request.json
+    UserController.add_user_to_business(username, data)
+    return jsonify({"message": "Added User to business."})
+
 @user.route("/delete/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     UserController.delete_user(user_id)
