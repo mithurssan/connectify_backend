@@ -28,7 +28,6 @@ if environ.get("USE_MOCK_DB") == "True":
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
-# app.config.from_object(config("APP_SETTINGS"))
 
 
 SQLALCHEMY_TRACK_NOTIFICATIONS = False
@@ -69,28 +68,6 @@ def logout():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
-
-
-# USER
-@app.route("/verify-email", methods=["POST"])
-def verify_email():
-    email = request.json["user_email"]
-    token = create_access_token(identity=email)
-
-    send_verification_email(email, token)
-
-    return jsonify({"message": "Verification email sent - user"})
-
-
-def send_verification_email(email, token):
-    verification_link = f"http://localhost:5173/verify/{token}"
-
-    msg = mail.send_message(
-        "USER - Verify your email",
-        sender=environ.get("EMAIL"),
-        recipients=[email],
-        body=f"Click the following link to verify your email: {verification_link}",
-    )
 
 
 # BUSINESS
