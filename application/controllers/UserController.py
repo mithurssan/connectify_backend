@@ -1,5 +1,6 @@
 from application.models import User
 from application import bcrypt
+from flask import abort
 
 class UserController:
     def register_user(username, email, password):
@@ -28,6 +29,9 @@ class UserController:
             if "business_id" in data:
                 user.business_id = data["business_id"]
             user.update()
+            return {"message": "User updated successfully"}
+        else:
+            abort(404, "User not found")
 
     def delete_user(user_id):
         user = User.get_by_id(user_id)
