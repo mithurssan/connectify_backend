@@ -10,6 +10,10 @@ class PostController:
 
     def get_one_by_post_id(post_id):
         return Post.get_by_id(post_id)
+    
+    def get_posts_from_business(business_id):
+        return Post.get_posts_from_business(business_id)
+
 
     def update_post(post_id, user_id, business_id, post_title, post_content):
         post = Post.get_by_id(post_id)

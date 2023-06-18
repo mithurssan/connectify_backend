@@ -39,6 +39,14 @@ def get_user_by_id(post_id):
     else:
         abort(404, 'Post not found')
 
+@post.route("/get/<string:business_id>", methods=["GET"])
+def get_posts_from_business(business_id):
+    posts = PostController.get_posts_from_business(business_id)
+    post_list=[]
+    for post in posts:
+        post_list.append(format_posts(post))
+    return jsonify(post_list)
+
 @post.route('/update/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     data = request.json
