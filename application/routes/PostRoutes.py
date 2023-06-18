@@ -16,6 +16,7 @@ def format_posts(post):
         "post_id": post.post_id,
         "user_id": post.user_id,
         "business_id": post.business_id,
+        "username": post.username,
         "post_title": post.post_title,
         "post_content": post.post_content
     }
@@ -25,10 +26,11 @@ def create_post():
     data = request.get_json()
     user_id = data['user_id']
     business_id = data['business_id']
+    username = data["username"]
     post_title = data['post_title']
     post_content = data['post_content']
 
-    PostController.create_post(user_id, business_id, post_title, post_content)
+    PostController.create_post(user_id, business_id, username, post_title, post_content)
     return jsonify({'message': 'Post created.'})
 
 @post.route('/<post_id>', methods=['GET'])

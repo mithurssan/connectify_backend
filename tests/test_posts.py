@@ -10,7 +10,7 @@ def test_get_all_posts(client):
 
     expected_post = [
         {
-             "user_id": "test_user",
+            "user_id": "test_user",
             "business_id": "business_id",
             "post_title": "first_post",
             "post_id": 1,
