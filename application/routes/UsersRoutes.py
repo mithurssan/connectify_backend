@@ -161,7 +161,6 @@ def login_user():
 
     if not bcrypt.check_password_hash(user.user_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-
     access_token = create_access_token(identity=user_username, additional_claims={"user_id": user.user_id})
     session["user_id"] = user.user_id
 
