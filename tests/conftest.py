@@ -98,6 +98,7 @@ def mock_post():
     return {
         "user_id": "test_user",
         "business_id": "business_id",
+        "username": "test",
         "post_title": "first_post",
         "post_content":"post_content"
     }

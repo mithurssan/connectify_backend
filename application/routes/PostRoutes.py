@@ -16,6 +16,7 @@ def format_posts(post):
         "post_id": post.post_id,
         "user_id": post.user_id,
         "business_id": post.business_id,
+        "username": post.username,
         "post_title": post.post_title,
         "post_content": post.post_content
     }
@@ -25,10 +26,11 @@ def create_post():
     data = request.get_json()
     user_id = data['user_id']
     business_id = data['business_id']
+    username = data["username"]
     post_title = data['post_title']
     post_content = data['post_content']
 
-    PostController.create_post(user_id, business_id, post_title, post_content)
+    PostController.create_post(user_id, business_id, username, post_title, post_content)
     return jsonify({'message': 'Post created.'})
 
 @post.route('/<post_id>', methods=['GET'])
@@ -38,6 +40,14 @@ def get_user_by_id(post_id):
         return jsonify(format_posts(post))
     else:
         abort(404, 'Post not found')
+
+@post.route("/get/<string:business_id>", methods=["GET"])
+def get_posts_from_business(business_id):
+    posts = PostController.get_posts_from_business(business_id)
+    post_list=[]
+    for post in posts:
+        post_list.append(format_posts(post))
+    return jsonify(post_list)
 
 @post.route('/update/<int:post_id>', methods=['PUT'])
 def update_post(post_id):

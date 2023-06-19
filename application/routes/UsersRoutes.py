@@ -53,6 +53,11 @@ def update_user(user_id):
     UserController.update_user(user_id, data)
     return jsonify({"message": "User updated successfully"})
 
+@user.route("/update/business/<string:username>", methods=["PATCH"])
+def add_user_to_business(username):
+    data = request.json
+    response = UserController.add_user_to_business(username, data)
+    return jsonify(response)
 
 @user.route("/delete/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
@@ -170,7 +175,7 @@ def login_user():
 
     return (
         jsonify(
-            {"username": user_username, "token": access_token, "password": password}
+            {"user_id": user.user_id, "business_id": user.business_id, "username": user_username, "token": access_token, "password": password}
         ),
         response.json(),
     )
