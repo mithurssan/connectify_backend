@@ -196,7 +196,7 @@ def login_business():
     )
 
     return (
-        jsonify({"business_name": business_name, "token": access_token}),
+        jsonify({"business_id": business.business_id, "business_name": business_name, "token": access_token}),
         response.json(),
     )
 
