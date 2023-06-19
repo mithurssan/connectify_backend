@@ -4,11 +4,12 @@ from os import environ
 from application.controllers import BusinessController
 from application.models import Business
 from flask import Blueprint, request, jsonify, session
-from application import bcrypt
+from application import bcrypt, db
 from datetime import datetime, timedelta, timezone
+from application import mail
+from uuid import uuid4
 from flask_jwt_extended import (
     create_access_token,
-    unset_jwt_cookies,
     get_jwt_identity,
     get_jwt,
     jwt_required,
@@ -18,7 +19,6 @@ business = Blueprint("business", __name__)
 
 
 @business.route("/")
-@jwt_required()
 def get_businesses():
     businesses = BusinessController.get_all_businesses()
     business_list = []
@@ -33,6 +33,8 @@ def format_business(business):
         "business_email": business.business_email,
         "business_name": business.business_name,
         "business_password": business.business_password,
+        "business_verify_token": business.business_verify_token,
+        "business_verified": business.business_verified,
     }
 
 
@@ -67,11 +69,19 @@ def delete_business(business_id):
 @business.route("/register", methods=["POST"])
 def register_business():
     data = request.json
-    # print(data)
+
     business_email = data.get("business_email")
     business_name = data.get("business_name")
     business_number = data.get("business_number")
     business_password = data.get("business_password")
+    verify_token = uuid4().hex
+    verified = False
+
+    if not business_name or not business_password:
+        return jsonify({"error": "Enter business name and password"})
+
+    if not business_email:
+        return jsonify({"error": "Enter business email address"})
 
     business_exist = (
         Business.query.filter_by(business_name=business_name).first() is not None
@@ -86,33 +96,57 @@ def register_business():
         business_password=hashed_password,
         business_email=business_email,
         business_number=business_number,
+        business_verify_token=verify_token,
+        business_verified=verified,
     )
 
     session["user_id"] = new_business.business_id
 
     BusinessController.register_business(
-        business_name, hashed_password, business_email, business_number
+        business_name,
+        hashed_password,
+        business_email,
+        business_number,
+        verify_token,
+        verified,
     )
 
-    # response = requests.post(
-    #     "https://api.chatengine.io/users/",
-    #     data={
-    #         "username": request.get_json()["business_username"],
-    #         "secret": request.get_json()["business_password"],
-    #         "email": request.get_json()["business_email"],
-    #     },
-    #     headers={"Private-Key": "7f306ed8-bf91-4841-b5e1-f9bf00e39ddf"},
-    # )
+    send_verification_email(business_email, verify_token)
 
-    return jsonify(
-        {
-            "business_name": business_name,
-            "password": hashed_password,
-            "number": business_number,
-            "email": business_email,
-        }
+    response = requests.post(
+        "https://api.chatengine.io/users/",
+        data={
+            "username": request.get_json()["business_name"],
+            "secret": hashed_password,
+            "email": request.get_json()["business_email"],
+        },
+        headers={"Private-Key": "7f306ed8-bf91-4841-b5e1-f9bf00e39ddf"},
     )
-    # response.json()
+
+    return (
+        jsonify(
+            {
+                "business_name": business_name,
+                "password": hashed_password,
+                "number": business_number,
+                "email": business_email,
+                "verify_token": verify_token,
+                "verified": verified,
+            }
+        ),
+        response.json(),
+    )
+
+
+def send_verification_email(email, verify_token):
+    verification_link = f"http://localhost:5173/businesses/verify/{verify_token}"
+
+    mail.send_message(
+        "BUSINESS - Verify your email",
+        sender=environ.get("EMAIL"),
+        recipients=[email],
+        html=f"<h1>Connectify</h1> \n <h4>Please, use the link below to verify your email:</h4> \n <p><b>{verification_link}</b></p>",
+    )
 
 
 @business.after_request
@@ -146,18 +180,56 @@ def login_business():
 
     if not bcrypt.check_password_hash(business.business_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-    access_token = create_access_token(identity=business_name)
+    access_token = create_access_token(
+        identity=business_name, additional_claims={"business_id": business.business_id}
+    )
+
+    session["business_id"] = business.business_id
+
+    response = requests.get(
+        "https://api.chatengine.io/users/me/",
+        headers={
+            "Project-ID": environ.get("CHAT_ENGINE_PROJECT_ID"),
+            "User-Name": business.business_name,
+            "User-Secret": business.business_password,
+        },
+    )
+
+    return (
+        jsonify({"business_name": business_name, "token": access_token}),
+        response.json(),
+    )
+
+
+@business.route("/verify/<business_verify_token>", methods=["POST"])
+def login_business_for_the_first_time(business_verify_token):
+    data = request.json
+    business_name = data.get("business_name")
+    password = data.get("business_password")
+    business = Business.query.filter_by(business_name=business_name).first()
+
+    if business is None or business_verify_token is None:
+        return jsonify({"error": "Unauthorized access"}), 401
+
+    if not bcrypt.check_password_hash(business.business_password, password):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    business.business_verified = True
+    db.session.commit()
+
     access_token = create_access_token(identity=business_name)
     session["business_id"] = business.business_id
 
-    # response = requests.get(
-    #     "https://api.chatengine.io/users/me/",
-    #     headers={
-    #         "Project-ID": "7f8e7fee-521a-4f50-8d9a-9028fc529c34",
-    #         "User-Name": request.get_json()["business_name"],
-    #         "User-Secret": request.get_json()["business_password"],
-    #     },
-    # )
+    response = requests.get(
+        "https://api.chatengine.io/users/me/",
+        headers={
+            "Project-ID": "7f8e7fee-521a-4f50-8d9a-9028fc529c34",
+            "User-Name": request.get_json()["business_name"],
+            "User-Secret": request.get_json()["business_password"],
+        },
+    )
 
-    return jsonify({"business_id": business.business_id, "business_name": business_name, "token": access_token})
-    # response.json()
+    return (
+        jsonify({"business_name": business_name, "token": access_token}),
+        response.json(),
+    )

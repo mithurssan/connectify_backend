@@ -1,5 +1,4 @@
 from application.models import User
-from application import bcrypt
 from flask import abort
 
 
@@ -26,7 +25,7 @@ class UserController:
         elif "user_password" in data:
             user.user_password = data["user_password"]
         user.update()
-    
+
     def add_user_to_business(username, data):
         user = User.query.filter_by(user_username=username).first()
         if user:
