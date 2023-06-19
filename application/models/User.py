@@ -24,7 +24,6 @@ class User(db.Model):
     def __init__(
         
         self, user_username, user_email, user_password, user_verify_token, user_verified
-    , user_verify_token, user_verified
     ):
         self.user_username = user_username
         self.user_email = user_email
