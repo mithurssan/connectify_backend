@@ -1,18 +1,24 @@
 from application.models import Business
 
-class BusinessController:
 
-    def register_business(business_name, number, email, password):
-        business = Business(business_name, number, email, password)
-        print(business)
+class BusinessController:
+    def register_business(
+        business_name, number, email, password, verify_token, verified
+    ):
+        business = Business(
+            business_name, number, email, password, verify_token, verified
+        )
         business.save()
 
     def get_all_businesses():
         return Business.get_all()
-    
+
     @staticmethod
     def get_one_by_business_id(business_id):
         return Business.get_by_id(business_id)
+
+    def get_one_by_business_verify_token(business_verify_token):
+        return Business.get_by_token(business_verify_token)
 
     def update_business(business_id, business_email, business_name, business_password):
         business = Business.get_by_id(business_id)
