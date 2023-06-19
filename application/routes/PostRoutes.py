@@ -18,7 +18,9 @@ def format_posts(post):
         "business_id": post.business_id,
         "username": post.username,
         "post_title": post.post_title,
-        "post_content": post.post_content
+        "post_content": post.post_content,
+        "post_upvotes": post.post_upvotes,
+        "post_downvotes": post.post_downvotes
     }
 
 @post.route('/add', methods=['POST'])
