@@ -28,7 +28,6 @@ if environ.get("USE_MOCK_DB") == "True":
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
-# app.config.from_object(config("APP_SETTINGS"))
 
 
 SQLALCHEMY_TRACK_NOTIFICATIONS = False
@@ -41,7 +40,6 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 
-
 from application.models import User, Business, Holiday, Journal
 
 
@@ -52,17 +50,17 @@ from application.routes import (
     HolidayRoutes,
     JournalRoutes,
     RotaRoutes,
-    PostRoutes
+    PostRoutes,
 )
 
 with app.app_context():
     db.create_all()
     print("Database tables created.")
 
+
 @app.route("/")
 def index():
     return jsonify({"message": "Welcome to the Connectify backend!"})
-
 
 
 @app.route("/logout", methods=["POST"])
@@ -72,30 +70,26 @@ def logout():
     return response
 
 
-@app.route("/verify-email", methods=["POST"])
-def verify_email():
-    email = request.json["user_email"]
+# BUSINESS
+@app.route("/verify-business-email", methods=["POST"])
+def verify_business_email():
+    email = request.json["business_email"]
     token = create_access_token(identity=email)
 
-    send_verification_email(email, token)
+    send_verification_email_business(email, token)
 
-    return jsonify({"message": "Verification email sent"})
+    return jsonify({"message": "Verification email sent - business"})
 
 
-def send_verification_email(email, token):
-    verification_link = f"http://localhost:5173/verify/{token}"
+def send_verification_email_business(email, token):
+    verification_link = f"http://localhost:5173/verify-business/{token}"
 
     msg = mail.send_message(
-        "Verify your email",
+        "BUSINESS - Verify your email",
         sender=environ.get("EMAIL"),
         recipients=[email],
-        body=f"Click the following link to verify your email: {verification_link}",
+        body=f"Click the following link to verify your business email: {verification_link}",
     )
-
-    # msg = Message("Email Verification", recipients=[email])
-
-    # msg.body = f"Click the following link to verify your email: {verification_link}"
-    # mail.send(msg)
 
 
 app.register_blueprint(UsersRoutes.user, url_prefix="/users")
