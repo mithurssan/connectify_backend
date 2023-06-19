@@ -7,6 +7,9 @@ class Journal(db.Model):
     entry_date = db.Column(db.String(50), nullable=False)
     entry_title = db.Column(db.String(50), nullable=False)
     entry_content = db.Column(db.String(350), nullable=False)
+    
+    users = db.relationship('User', back_populates='journal_entries')
+
 
     def __init__(self, user_id, entry_date, entry_title, entry_content):
         self.user_id = user_id

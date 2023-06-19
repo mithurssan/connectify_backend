@@ -10,6 +10,9 @@ class User(db.Model):
     user_username = db.Column(db.String(100), nullable=False)
     user_email = db.Column(db.String(100), nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
+    
+    journal_entries = db.relationship('Journal', back_populates='users')
+  
 
     def __init__(self, user_username, user_email, user_password):
         self.user_username = user_username
