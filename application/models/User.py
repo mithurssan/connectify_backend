@@ -9,21 +9,25 @@ def get_uuid():
 class User(db.Model):
     __tablename__ = "users"
     user_id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-    business_id = db.Column(db.String(32), db.ForeignKey("businesses.business_id"), nullable=True)
+    business_id = db.Column(
+        db.String(32), db.ForeignKey("businesses.business_id"), nullable=True
+    )
     user_username = db.Column(db.String(100), nullable=False)
     user_email = db.Column(db.String(100), nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
     user_verify_token = db.Column(db.String(32), nullable=False)
     user_verified = db.Column(db.Boolean(), nullable=False)
 
-
     business = db.relationship("Business", backref="users")
-    journal_entries = db.relationship('Journal', back_populates='users')
-
+    journal_entries = db.relationship("Journal", back_populates="users")
 
     def __init__(
-        
-        self, user_username, user_email, user_password, user_verify_token, user_verified
+        self,
+        user_username,
+        user_email,
+        user_password,
+        user_verify_token,
+        user_verified,
     ):
         self.user_username = user_username
         self.user_email = user_email

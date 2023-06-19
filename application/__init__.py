@@ -70,28 +70,6 @@ def logout():
     return response
 
 
-# BUSINESS
-@app.route("/verify-business-email", methods=["POST"])
-def verify_business_email():
-    email = request.json["business_email"]
-    token = create_access_token(identity=email)
-
-    send_verification_email_business(email, token)
-
-    return jsonify({"message": "Verification email sent - business"})
-
-
-def send_verification_email_business(email, token):
-    verification_link = f"http://localhost:5173/verify-business/{token}"
-
-    msg = mail.send_message(
-        "BUSINESS - Verify your email",
-        sender=environ.get("EMAIL"),
-        recipients=[email],
-        body=f"Click the following link to verify your business email: {verification_link}",
-    )
-
-
 app.register_blueprint(UsersRoutes.user, url_prefix="/users")
 app.register_blueprint(CompaniesHouseProxy.proxy, url_prefix="/api")
 app.register_blueprint(BusinessesRoutes.business, url_prefix="/businesses")
