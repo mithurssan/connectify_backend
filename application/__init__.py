@@ -1,4 +1,3 @@
-# from decouple import config
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +8,7 @@ from flask_jwt_extended import JWTManager, unset_jwt_cookies, create_access_toke
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
+
 CORS(app)
 
 app.config["SECRET_KEY"] = environ.get("KEY")

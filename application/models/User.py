@@ -15,11 +15,16 @@ class User(db.Model):
     user_password = db.Column(db.String(100), nullable=False)
     user_verify_token = db.Column(db.String(32), nullable=False)
     user_verified = db.Column(db.Boolean(), nullable=False)
+
+
     business = db.relationship("Business", backref="users")
+    journal_entries = db.relationship('Journal', back_populates='users')
 
 
     def __init__(
+        
         self, user_username, user_email, user_password, user_verify_token, user_verified
+    , user_verify_token, user_verified
     ):
         self.user_username = user_username
         self.user_email = user_email
