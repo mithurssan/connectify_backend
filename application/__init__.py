@@ -51,6 +51,7 @@ from application.routes import (
     JournalRoutes,
     RotaRoutes,
     PostRoutes,
+    CommentRoutes
 )
 
 with app.app_context():
@@ -86,7 +87,7 @@ def send_verification_email_business(email, token):
 
     msg = mail.send_message(
         "BUSINESS - Verify your email",
-        sender=environ.get("EMAIL"),
+        sender="admin@connectify.com",
         recipients=[email],
         body=f"Click the following link to verify your business email: {verification_link}",
     )
@@ -99,3 +100,4 @@ app.register_blueprint(HolidayRoutes.holiday, url_prefix="/bookings")
 app.register_blueprint(JournalRoutes.entry, url_prefix="/entries")
 app.register_blueprint(RotaRoutes.rota, url_prefix="/rotas")
 app.register_blueprint(PostRoutes.post, url_prefix="/posts")
+app.register_blueprint(CommentRoutes.comment, url_prefix="/comments")

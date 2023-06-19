@@ -8,6 +8,9 @@ class Post(db.Model):
     username = db.Column(db.String(50), nullable=False)
     post_title = db.Column(db.String(50), nullable=False)
     post_content = db.Column(db.String(1000), nullable=False)
+    upvotes = db.Column(db.Integer, default=0)
+    downvotes = db.Column(db.Integer, default=0)
+    comments = db.relationship('Comment', backref='posts', lazy=True)
 
     def __init__(self, user_id, business_id, username, post_title, post_content):
         self.user_id = user_id
@@ -35,6 +38,14 @@ class Post(db.Model):
     
     def update(self):
         db.session.commit()
+
+    def upvote(self):
+        self.upvotes += 1
+        self.update()
+
+    def downvote(self):
+        self.downvotes += 1
+        self.update()
 
     def delete(self):
         db.session.delete(self)
