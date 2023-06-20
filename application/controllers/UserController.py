@@ -31,6 +31,8 @@ class UserController:
     def add_user_to_business(username, data):
         user = User.query.filter_by(user_username=username).first()
         if user:
+            if"user_business_name" in data:
+                user.user_business_name = data["user_business_name"]
             if "business_id" in data:
                 user.business_id = data["business_id"]
             user.update()

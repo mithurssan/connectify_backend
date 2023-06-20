@@ -14,18 +14,25 @@ class PostController:
     def get_posts_from_business(business_id):
         return Post.get_posts_from_business(business_id)
 
-    def update_post(post_id, user_id, business_id, post_title, post_content):
+    def update_post(post_id, data):
         post = Post.get_by_id(post_id)
-        if post:
-            post.user_id = user_id
-            post.business_id = business_id
-            post.post_title = post_title
-            post.post_content = post_content
-            post.update()
-    
+        if "user_id" in data:
+            post.user_id = data["user_id"]
+        if "business_id" in data:
+            post.business_id = data["business_id"]
+        if "post_title" in data:
+            post.post_title = data["post_title"]
+        if "post_content" in data:
+            post.post_content = data["post_content"]
+        post.update()
+
     def upvote_post(post_id):
         post = Post.query.get(post_id)
         post.upvote()
+    
+    def cancel_upvote_post(post_id):
+        post = Post.query.get(post_id)
+        post.cancel_upvote()
     
     def downvote_post(post_id):
         post = Post.query.get(post_id)

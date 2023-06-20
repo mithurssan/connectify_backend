@@ -24,9 +24,10 @@ def create_comment():
     data = request.get_json()
     user_id = data['user_id']
     post_id = data['post_id']
+    comment_username = data['comment_username']
     comment_content = data['comment_content']
 
-    CommentController.create_comment(user_id, post_id, comment_content)
+    CommentController.create_comment(user_id, post_id, comment_username, comment_content)
     return jsonify({'message': 'Comment created.'})
 
 @comment.route('/update/<int:comment_id>', methods=['PUT'])
@@ -57,5 +58,6 @@ def format_comment(comment):
         "comment_id": comment.comment_id,
         "user_id": comment.user_id,
         "post_id": comment.post_id,
+        "comment_username": comment.comment_username,
         "comment_content": comment.comment_content
     }

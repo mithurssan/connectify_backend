@@ -5,11 +5,13 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(32), db.ForeignKey("users.user_id"), nullable=True)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.post_id"), nullable=False)
+    comment_username = db.Column(db.String(50), nullable=False)
     comment_content = db.Column(db.String(500), nullable=False)
 
-    def __init__(self, user_id, post_id, comment_content):
+    def __init__(self, user_id, post_id, comment_username, comment_content):
         self.user_id = user_id
         self.post_id = post_id
+        self.comment_username = comment_username
         self.comment_content = comment_content
 
     def save(self):
