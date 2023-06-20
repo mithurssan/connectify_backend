@@ -1,20 +1,20 @@
 import base64
 from unittest.mock import patch
 
-import pytest
+
 import requests
 from flask import Flask
 
 from application.routes.CompaniesHouseProxy import proxy
 
 
-@pytest.fixture
-def client():
-    app = Flask(__name__)
-    app.register_blueprint(proxy)
+# @pytest.fixture
+# def client():
+#     app = Flask(__name__)
+#     app.register_blueprint(proxy)
 
-    with app.test_client() as client:
-        yield client
+#     with app.test_client() as client:
+#         yield client
 
 
 def test_get_company_summary_success(client):
@@ -36,7 +36,9 @@ def test_get_company_summary_success(client):
         response_mock.json.return_value = expected_data
         response_mock.status_code = 200
 
-        response = client.get(f"/company/{company_number}")
+        response = client.get(
+            f"https://api.company-information.service.gov.uk/company/{company_number}"
+        )
 
         mock_get.assert_called_once_with(expected_url, headers=expected_headers)
         assert response.status_code == 200
@@ -60,7 +62,9 @@ def test_get_company_summary_request_error(client):
     with patch.object(requests, "get") as mock_get:
         mock_get.side_effect = requests.exceptions.RequestException(expected_error)
 
-        response = client.get(f"/company/{company_number}")
+        response = client.get(
+            f"https://api.company-information.service.gov.uk/company/{company_number}"
+        )
 
         mock_get.assert_called_once_with(expected_url, headers=expected_headers)
         assert response.status_code == 500
@@ -69,12 +73,14 @@ def test_get_company_summary_request_error(client):
 
 def test_get_company_summary_invalid_api_key(client, monkeypatch):
     company_number = "12345678"
-    api_key = None
+    api_key = "123123"
     expected_error = "Invalid API key"
 
     monkeypatch.setenv("CH_API_KEY", api_key)
 
-    response = client.get(f"/company/{company_number}")
+    response = client.get(
+        f"https://api.company-information.service.gov.uk/company/{company_number}"
+    )
 
     assert response.status_code == 500
     assert response.get_json() == {"error": expected_error}

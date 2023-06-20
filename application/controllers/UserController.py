@@ -1,5 +1,4 @@
 from application.models import User
-from application import bcrypt
 from flask import abort
 
 
@@ -27,7 +26,7 @@ class UserController:
             password = data["user_password"]
             user.user_password = hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
         user.update()
-    
+
     def add_user_to_business(username, data):
         user = User.query.filter_by(user_username=username).first()
         if user:
