@@ -53,11 +53,13 @@ def update_user(user_id):
     UserController.update_user(user_id, data)
     return jsonify({"message": "User updated successfully"})
 
+
 @user.route("/update/business/<string:username>", methods=["PATCH"])
 def add_user_to_business(username):
     data = request.json
     response = UserController.add_user_to_business(username, data)
     return jsonify(response)
+
 
 @user.route("/delete/<string:user_id>", methods=["DELETE"])
 def delete_user(user_id):
@@ -74,6 +76,12 @@ def register_user():
     password = data.get("user_password")
     verify_token = uuid4().hex
     verified = False
+
+    if not username or not password:
+        return jsonify({"error": "Enter username and password"})
+
+    if not email:
+        return jsonify({"error": "Enter your email address"})
 
     user_exist = User.query.filter_by(user_username=username).first() is not None
     if user_exist:
@@ -126,7 +134,7 @@ def send_verification_email(email, verify_token):
         "USER - Verify your email",
         sender=environ.get("EMAIL"),
         recipients=[email],
-        body=f"Click the following link to verify your email: {verification_link}",
+        html=f"<h1>Connectify</h1> \n <h4>Please, use the link below to verify your email:</h4> \n <p><b>{verification_link}</b></p>",
     )
 
 
@@ -161,7 +169,9 @@ def login_user():
 
     if not bcrypt.check_password_hash(user.user_password, password):
         return jsonify({"error": "Unauthorized"}), 401
-    access_token = create_access_token(identity=user_username, additional_claims={"user_id": user.user_id})
+    access_token = create_access_token(
+        identity=user_username, additional_claims={"user_id": user.user_id}
+    )
     session["user_id"] = user.user_id
 
     response = requests.get(
@@ -175,7 +185,13 @@ def login_user():
 
     return (
         jsonify(
-            {"user_id": user.user_id, "business_id": user.business_id, "username": user_username, "token": access_token, "password": password}
+            {
+                "user_id": user.user_id,
+                "business_id": user.business_id,
+                "username": user_username,
+                "token": access_token,
+                "password": password,
+            }
         ),
         response.json(),
     )
