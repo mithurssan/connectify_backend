@@ -40,11 +40,15 @@ class Post(db.Model):
         db.session.commit()
 
     def upvote(self):
-        self.upvotes += 1
+        self.post_upvotes += 1
+        self.update()
+    
+    def cancel_upvote(self):
+        self.post_upvotes -= 1
         self.update()
 
     def downvote(self):
-        self.downvotes += 1
+        self.post_downvotes += 1
         self.update()
 
     def delete(self):

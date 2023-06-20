@@ -51,25 +51,26 @@ def get_posts_from_business(business_id):
         post_list.append(format_posts(post))
     return jsonify(post_list)
 
-@post.route('/update/<int:post_id>', methods=['PUT'])
+@post.route('/update/<int:post_id>', methods=['PATCH'])
 def update_post(post_id):
     data = request.json
-    user_id = data['user_id']
-    business_id = data['business_id']
-    post_title = data['post_title']
-    post_content = data['post_content']
-    upvote = data.get('upvote', None)
-    downvote = data.get('downvote', None)
-
-    PostController.update_post(post_id, user_id, business_id, post_title, post_content)
-
-    if upvote:
-        PostController.upvote_post(post_id)
-
-    if downvote:
-        PostController.downvote_post(post_id)
-
+    PostController.update_post(post_id, data)
     return jsonify({"message": "Post updated successfully"})
+
+@post.route('/update/<int:post_id>/upvote', methods=['PATCH'])
+def upvote_post(post_id):
+    PostController.upvote_post(post_id)
+    return jsonify({"message": "Post upvoted successfully"})
+
+@post.route('/update/<int:post_id>/cancel_upvote', methods=['PATCH'])
+def cancel_upvote_post(post_id):
+    PostController.cancel_upvote_post(post_id)
+    return jsonify({"message": "Post cancelled upvote successfully"})
+
+@post.route('/update/<int:post_id>/downvote', methods=['PATCH'])
+def downvote_post(post_id):
+    PostController.downvote_post(post_id)
+    return jsonify({"message": "Post downvoted successfully"})
 
 @post.route('/delete/<int:post_id>', methods=['DELETE'])
 def delete_post(post_id):

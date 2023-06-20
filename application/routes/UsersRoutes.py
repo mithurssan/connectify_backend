@@ -35,6 +35,7 @@ def format_users(user):
         "user_password": user.user_password,
         "user_verify_token": user.user_verify_token,
         "user_verified": user.user_verified,
+        "upvoted_posts": user.upvoted_posts
     }
 
 
@@ -227,3 +228,33 @@ def login_user_for_the_first_time(user_verify_token):
     )
 
     return jsonify({"username": user_username, "token": access_token}), response.json()
+
+@user.route("/posts/upvote", methods=["POST"])
+def user_upvote_post():
+    data = request.json
+    user_id = data.get("user_id")
+    post_id = data.get("post_id")
+
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+
+    user.upvote_post(post_id)
+
+    return jsonify({"message": "Post upvoted successfully"})
+
+
+@user.route("/posts/cancel_upvote", methods=["POST"])
+def user_cancel_upvote_post():
+    data = request.json
+    user_id = data.get("user_id")
+    post_id = data.get("post_id")
+
+    user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+
+    user.cancel_upvote_post(post_id)
+
+    return jsonify({"message": "Upvote canceled successfully"})
