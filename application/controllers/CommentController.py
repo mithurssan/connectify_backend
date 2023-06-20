@@ -1,8 +1,8 @@
 from application.models import Comment
 
 class CommentController:
-    def create_comment(user_id, post_id, comment_content):
-        comment = Comment(user_id, post_id, comment_content)
+    def create_comment(user_id, post_id, comment_username, comment_content):
+        comment = Comment(user_id, post_id, comment_username, comment_content)
         comment.save()
 
     def get_all_comments():
