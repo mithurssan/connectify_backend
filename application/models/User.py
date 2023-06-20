@@ -9,6 +9,7 @@ def get_uuid():
 class User(db.Model):
     __tablename__ = "users"
     user_id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    user_business_name = db.Column(db.String(50), nullable=True)
     business_id = db.Column(
         db.String(32), db.ForeignKey("businesses.business_id"), nullable=True
     )

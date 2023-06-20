@@ -188,6 +188,7 @@ def login_user():
             {
                 "user_id": user.user_id,
                 "business_id": user.business_id,
+                "user_business_name": user.user_business_name,
                 "username": user_username,
                 "token": access_token,
                 "password": password,
