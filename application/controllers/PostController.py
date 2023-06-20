@@ -22,6 +22,14 @@ class PostController:
             post.post_title = post_title
             post.post_content = post_content
             post.update()
+    
+    def upvote_post(post_id):
+        post = Post.query.get(post_id)
+        post.upvote()
+    
+    def downvote_post(post_id):
+        post = Post.query.get(post_id)
+        post.downvote()
 
     def delete_post(post_id):
         post = Post.get_by_id(post_id)

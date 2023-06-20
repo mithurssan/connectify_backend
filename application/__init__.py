@@ -51,6 +51,7 @@ from application.routes import (
     JournalRoutes,
     RotaRoutes,
     PostRoutes,
+    CommentRoutes
 )
 
 with app.app_context():
@@ -77,3 +78,4 @@ app.register_blueprint(HolidayRoutes.holiday, url_prefix="/bookings")
 app.register_blueprint(JournalRoutes.entry, url_prefix="/entries")
 app.register_blueprint(RotaRoutes.rota, url_prefix="/rotas")
 app.register_blueprint(PostRoutes.post, url_prefix="/posts")
+app.register_blueprint(CommentRoutes.comment, url_prefix="/comments")

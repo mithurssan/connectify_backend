@@ -18,7 +18,9 @@ def format_posts(post):
         "business_id": post.business_id,
         "username": post.username,
         "post_title": post.post_title,
-        "post_content": post.post_content
+        "post_content": post.post_content,
+        "post_upvotes": post.post_upvotes,
+        "post_downvotes": post.post_downvotes
     }
 
 @post.route('/add', methods=['POST'])
@@ -56,7 +58,17 @@ def update_post(post_id):
     business_id = data['business_id']
     post_title = data['post_title']
     post_content = data['post_content']
+    upvote = data.get('upvote', None)
+    downvote = data.get('downvote', None)
+
     PostController.update_post(post_id, user_id, business_id, post_title, post_content)
+
+    if upvote:
+        PostController.upvote_post(post_id)
+
+    if downvote:
+        PostController.downvote_post(post_id)
+
     return jsonify({"message": "Post updated successfully"})
 
 @post.route('/delete/<int:post_id>', methods=['DELETE'])
