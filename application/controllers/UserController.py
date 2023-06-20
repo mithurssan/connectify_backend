@@ -1,6 +1,6 @@
 from application.models import User
 from flask import abort
-
+import bcrypt
 
 class UserController:
     def register_user(username, email, password, verify_token, verified):
@@ -24,7 +24,8 @@ class UserController:
             user.user_username = data["user_username"]
         if "user_password" in data:
             password = data["user_password"]
-            user.user_password = hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+            hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+            user.user_password = hashed_password
         user.update()
 
     def add_user_to_business(username, data):
