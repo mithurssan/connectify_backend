@@ -20,10 +20,11 @@ class UserController:
         user = User.get_by_id(user_id)
         if "user_email" in data:
             user.user_email = data["user_email"]
-        elif "user_username" in data:
+        if "user_username" in data:
             user.user_username = data["user_username"]
-        elif "user_password" in data:
-            user.user_password = data["user_password"]
+        if "user_password" in data:
+            password = data["user_password"]
+            user.user_password = hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
         user.update()
 
     def add_user_to_business(username, data):
