@@ -230,6 +230,6 @@ def login_business_for_the_first_time(business_verify_token):
     )
 
     return (
-        jsonify({"business_name": business_name, "token": access_token}),
+        jsonify({"business_id": business.business_id, "business_name": business_name, "token": access_token}),
         response.json(),
     )
