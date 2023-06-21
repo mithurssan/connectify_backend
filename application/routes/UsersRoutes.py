@@ -227,7 +227,8 @@ def login_user_for_the_first_time(user_verify_token):
         },
     )
 
-    return jsonify({"username": user_username, "token": access_token}), response.json()
+    return jsonify({"business_id": user.business_id,
+                "user_business_name": user.user_business_name,"username": user_username, "token": access_token}), response.json()
 
 @user.route("/posts/upvote", methods=["POST"])
 def user_upvote_post():
