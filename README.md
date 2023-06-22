@@ -17,83 +17,57 @@
 
 ## EndPoints 
 
-+---------------------------------------+-------------------------------------------------+
-| User Endpoints                        |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /users                            | Retrieve a list of all users                    |
-| GET /users/{user_id}                  | Retrieve details of a specific user             |
-| POST /users                           | Create a new user                               |
-| PATCH /users/{user_id}                | Update an existing user                         |
-| DELETE /users/{user_id}               | Delete a user                                   |
-+---------------------------------------+-------------------------------------------------+
+### User 
+---------------------------------
+GET    /users
+GET    /users/{user_id}
+POST   /users
+PATCH  /users/{user_id}
+DELETE /users/{user_id}
 
-+---------------------------------------+-------------------------------------------------+
-| Post Endpoints                        |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /posts                            | Retrieve a list of all posts                    |
-| GET /posts/{post_id}                  | Retrieve details of a specific post             |
-| POST /posts                           | Create a new post                               |
-| PATCH /posts/{post_id}                | Update an existing post                         |
-| DELETE /posts/{post_id}               | Delete a post                                   |
-+---------------------------------------+-------------------------------------------------+
+### Post
+---------------------------------
+GET    /posts
+GET    /posts/{post_id}
+POST   /posts
+PATCH  /posts/{post_id}
+DELETE /posts/{post_id}
 
-+---------------------------------------+-------------------------------------------------+
-| Comment Endpoints                     |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /comments                         | Retrieve a list of all comments                 |
-| GET /comments/{comment_id}            | Retrieve details of a specific comment          |
-| POST /comments                        | Create a new comment                            |
-| PUT /comments/{comment_id}            | Update an existing comment                      |
-| DELETE /comments/{comment_id}         | Delete a comment                                |
-+---------------------------------------+-------------------------------------------------+
+### Comment Endpoints
+---------------------------------
+GET    /comments
+GET    /comments/{comment_id}
+POST   /comments
+PUT    /comments/{comment_id}
+DELETE /comments/{comment_id}
 
-+---------------------------------------+-------------------------------------------------+
-| Company Endpoints                     |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /api/company/{company_number}     | Retrieve summary information for a company       |
-+---------------------------------------+-------------------------------------------------+
+### Company Endpoints
+---------------------------------
+GET    /api/company/{company_number}
 
-+---------------------------------------+-------------------------------------------------+
-| Holiday Endpoints                     |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /bookings                         | Retrieve a list of all holidays                 |
-| POST /bookings/book                   | Create a new holiday booking                     |
-| GET /bookings/{holiday_id}            | Retrieve details of a specific holiday          |
-| PUT /bookings/update/{holiday_id}     | Update an existing holiday booking               |
-| DELETE /bookings/delete/{holiday_id}  | Delete a holiday booking                         |
-+---------------------------------------+-------------------------------------------------+
+### Holiday Endpoints
+---------------------------------
+GET    /bookings
+POST   /bookings/book
+GET    /bookings/{holiday_id}
+PUT    /bookings/update/{holiday_id}
+DELETE /bookings/delete/{holiday_id}
 
-+---------------------------------------+-------------------------------------------------+
-| Journal Endpoints                     |                                                 |
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /entries                          | Retrieve a list of all journal entries          |
-| GET /entries/user/{user_id}           | Retrieve journal entries for a specific user    |
-| POST /entries/add                     | Create a new journal entry                      |
-| GET /entries/{entry_id}               | Retrieve details of a specific journal entry    |
-| PUT /entries/update/{entry_id}        | Update an existing journal entry                |
-| DELETE /entries/delete/{entry_id}     | Delete a journal entry                          |
-+---------------------------------------+-------------------------------------------------+
+### Journal 
+---------------------------------
+GET    /entries
+GET    /entries/user/{user_id}
+POST   /entries/add
+GET    /entries/{entry_id}
+PUT    /entries/update/{entry_id}
+DELETE /entries/delete/{entry_id}
 
 ### Rota 
-+---------------------------------------+-------------------------------------------------+
-| Endpoint                              | Description                                     |
-+---------------------------------------+-------------------------------------------------+
-| GET /rotas                            | Retrieve a list of all rotas                    |
-| GET /rotas/get/{business_id}          | Retrieve rotas for a specific business          |
-| POST /rotas/add                       | Create a new rota                               |
-| GET /rotas/{rota_id}                   | Retrieve details of a specific rota             |
-| PUT /rotas/update/{rota_id}            | Update an existing rota                         |
-| DELETE /rotas/delete/{rota_id}         | Delete a rota                                   |
-+---------------------------------------+-------------------------------------------------
+---------------------------------
+GET    /rotas
+GET    /rotas/get/{business_id}
+POST   /rotas/add
+GET    /rotas/{rota_id}
+PUT    /rotas/update/{rota_id}
+DELETE /rotas/delete/{rota_id}
+
