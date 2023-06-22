@@ -17,7 +17,7 @@
 
 ## EndPoints 
 
-## Users 
+### Users 
 
 | Endpoint                      | Description                                          |
 |-------------------------------|------------------------------------------------------|               
@@ -27,7 +27,7 @@
 | PATCH /users/{user_id}        | Update an existing user.                             |
 | DELETE /users/{user_id}       | Delete a user.                                       |
 
-## Posts
+### Posts
 
 | Endpoint                      | Description                                          |
 |-------------------------------|------------------------------------------------------|    
@@ -37,7 +37,7 @@
 | PATCH /posts/{post_id}        | Update an existing post.                             |
 | DELETE /posts/{post_id}       | Delete a post.                                       |
 
-## Comments
+### Comments
 
 | Endpoint                      | Description                                          |
 |-------------------------------|------------------------------------------------------|    
@@ -47,13 +47,13 @@
 | PUT /comments/{comment_id}    | Update an existing comment.                          |
 | DELETE /comments/{comment_id} | Delete a comment.                                    |
 
-## Company House
+### Company House
 
 | Endpoint                      | Description                                          |
 |-------------------------------|------------------------------------------------------|    
 | GET /api/company/{company_number} | Retrieve summary information for a company       |
 
-## Bookings 
+### Bookings 
 
 | Endpoint                      | Description                                          |
 |-------------------------------|------------------------------------------------------|    
@@ -74,7 +74,7 @@
 | PUT /entries/update/{entry_id}      | Update an existing journal entry.              |
 | DELETE /entries/delete/{entry_id}   | Delete a journal entry.                        |
 
-## Rotas 
+### Rotas 
 
 | GET /rotas                           | Retrieve a list of all rotas.                 |
 |-------------------------------|------------------------------------------------------|    
@@ -83,3 +83,8 @@
 | GET /rotas/{rota_id}                 | Retrieve details of a specific rota.          |
 | PUT /rotas/update/{rota_id}          | Update an existing rota.                      |
 | DELETE /rotas/delete/{rota_id}       | Delete a rota.                                | 
+
+## Testing 
+
+![Testing coverage - Backend](https://github.com/mithurssan/connectify_backend/assets/112406576/6a525c09-8988-4b9d-abab-545ac65d2983)
+
