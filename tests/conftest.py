@@ -102,3 +102,12 @@ def mock_post():
         "post_title": "first_post",
         "post_content":"post_content"
     }
+
+@pytest.fixture
+def mock_comment():
+    return {
+        "user_id": "test_user",
+        "post_id": "1",
+        "comment_username": "test",
+        "comment_content": "First comment!"
+    }
