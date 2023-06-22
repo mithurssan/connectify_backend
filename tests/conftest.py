@@ -100,7 +100,9 @@ def mock_post():
         "business_id": "business_id",
         "username": "test",
         "post_title": "first_post",
-        "post_content":"post_content"
+        "post_content":"post_content",
+        "post_upvotes" : 0,
+        "post_downvotes": 0
     }
 
 @pytest.fixture

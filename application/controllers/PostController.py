@@ -1,4 +1,5 @@
 from application.models import Post
+from application import db
 
 class PostController:
     def create_post(user_id, business_id, username, post_title, post_content):
@@ -27,15 +28,15 @@ class PostController:
         post.update()
 
     def upvote_post(post_id):
-        post = Post.query.get(post_id)
+        post = db.session.get(Post, post_id)
         post.upvote()
     
     def cancel_upvote_post(post_id):
-        post = Post.query.get(post_id)
+        post = db.session.get(Post, post_id)
         post.cancel_upvote()
     
     def downvote_post(post_id):
-        post = Post.query.get(post_id)
+        post = db.session.get(Post, post_id)
         post.downvote()
 
     def delete_post(post_id):
