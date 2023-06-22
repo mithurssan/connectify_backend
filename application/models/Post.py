@@ -34,7 +34,7 @@ class Post(db.Model):
     @staticmethod
     def get_posts_from_business(business_id):
         print(business_id)
-        return Post.query.filter_by(business_id=business_id).all()
+        return Post.query.filter_by(business_id=business_id).order_by(Post.post_id.desc()).all()
     
     def update(self):
         db.session.commit()

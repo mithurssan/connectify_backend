@@ -100,5 +100,16 @@ def mock_post():
         "business_id": "business_id",
         "username": "test",
         "post_title": "first_post",
-        "post_content":"post_content"
+        "post_content":"post_content",
+        "post_upvotes" : 0,
+        "post_downvotes": 0
+    }
+
+@pytest.fixture
+def mock_comment():
+    return {
+        "user_id": "test_user",
+        "post_id": "1",
+        "comment_username": "test",
+        "comment_content": "First comment!"
     }
