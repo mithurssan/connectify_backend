@@ -28,7 +28,7 @@ class Comment(db.Model):
     
     @staticmethod
     def get_comments_for_post(post_id):
-        return Comment.query.filter_by(post_id=post_id).all()
+        return Comment.query.filter_by(post_id=post_id).order_by(Comment.comment_id.desc()).all()
     
     def update(self):
         db.session.commit()
