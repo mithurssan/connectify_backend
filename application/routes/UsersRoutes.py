@@ -35,7 +35,7 @@ def format_users(user):
         "user_password": user.user_password,
         "user_verify_token": user.user_verify_token,
         "user_verified": user.user_verified,
-        "upvoted_posts": user.upvoted_posts
+        "upvoted_posts": user.upvoted_posts,
     }
 
 
@@ -71,7 +71,6 @@ def delete_user(user_id):
 @user.route("/register", methods=["POST"])
 def register_user():
     data = request.json
-
     username = data.get("user_username")
     email = data.get("user_email")
     password = data.get("user_password")
@@ -192,7 +191,7 @@ def login_user():
                 "user_business_name": user.user_business_name,
                 "username": user_username,
                 "token": access_token,
-                "password": password,
+                "user_password": user.user_password,
             }
         ),
         response.json(),
@@ -227,8 +226,19 @@ def login_user_for_the_first_time(user_verify_token):
         },
     )
 
-    return jsonify({"business_id": user.business_id,
-                "user_business_name": user.user_business_name,"username": user_username, "token": access_token}), response.json()
+    return (
+        jsonify(
+            {
+                "business_id": user.business_id,
+                "user_business_name": user.user_business_name,
+                "username": user_username,
+                "token": access_token,
+                "user_password": user.user_password,
+            }
+        ),
+        response.json(),
+    )
+
 
 @user.route("/posts/upvote", methods=["POST"])
 def user_upvote_post():
