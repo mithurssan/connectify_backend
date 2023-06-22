@@ -13,6 +13,7 @@ def get_company_summary(company_number):
     api_key = environ.get("CH_API_KEY")
     encoded_api_key = base64.b64encode(api_key.encode("utf-8")).decode("utf-8")
     authorization_header = f"Basic {encoded_api_key}"
+    print(authorization_header)
 
     url = f"https://api.company-information.service.gov.uk/company/{company_number}"
     headers = {
