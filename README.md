@@ -18,7 +18,7 @@
 ## EndPoints 
 
 ### User 
----------------------------------
+
 GET    /users
 GET    /users/{user_id}
 POST   /users
@@ -26,7 +26,7 @@ PATCH  /users/{user_id}
 DELETE /users/{user_id}
 
 ### Post
----------------------------------
+
 GET    /posts
 GET    /posts/{post_id}
 POST   /posts
@@ -34,7 +34,7 @@ PATCH  /posts/{post_id}
 DELETE /posts/{post_id}
 
 ### Comment Endpoints
----------------------------------
+
 GET    /comments
 GET    /comments/{comment_id}
 POST   /comments
@@ -42,11 +42,11 @@ PUT    /comments/{comment_id}
 DELETE /comments/{comment_id}
 
 ### Company Endpoints
----------------------------------
+
 GET    /api/company/{company_number}
 
 ### Holiday Endpoints
----------------------------------
+
 GET    /bookings
 POST   /bookings/book
 GET    /bookings/{holiday_id}
@@ -54,7 +54,7 @@ PUT    /bookings/update/{holiday_id}
 DELETE /bookings/delete/{holiday_id}
 
 ### Journal 
----------------------------------
+
 GET    /entries
 GET    /entries/user/{user_id}
 POST   /entries/add
@@ -63,7 +63,7 @@ PUT    /entries/update/{entry_id}
 DELETE /entries/delete/{entry_id}
 
 ### Rota 
----------------------------------
+
 GET    /rotas
 GET    /rotas/get/{business_id}
 POST   /rotas/add
