@@ -139,7 +139,7 @@ def register_business():
 
 
 def send_verification_email(email, verify_token):
-    verification_link = f"http://localhost:5173/businesses/verify/{verify_token}"
+    verification_link = f"https://connectifysite.netlify.app/businesses/verify/{verify_token}"
 
     mail.send_message(
         "BUSINESS - Verify your email",

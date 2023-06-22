@@ -128,7 +128,7 @@ def register_user():
 
 
 def send_verification_email(email, verify_token):
-    verification_link = f"http://localhost:5173/users/verify/{verify_token}"
+    verification_link = f"https://connectifysite.netlify.app/users/verify/{verify_token}"
 
     mail.send_message(
         "USER - Verify your email",
