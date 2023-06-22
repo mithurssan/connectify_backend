@@ -9,7 +9,7 @@ from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, origins=["https://connectifysite.netlify.app"])
 
 app.config["SECRET_KEY"] = environ.get("KEY")
 
