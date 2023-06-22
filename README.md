@@ -30,6 +30,7 @@
 ## Posts
 
 | Endpoint                      | Description                                          |
+|-------------------------------|------------------------------------------------------|    
 | GET /posts                    | Retrieve a list of all posts.                        |
 | GET /posts/{post_id}          | Retrieve details of a specific post.                 |
 | POST /posts                   | Create a new post.                                   |
@@ -39,6 +40,7 @@
 ## Comments
 
 | Endpoint                      | Description                                          |
+|-------------------------------|------------------------------------------------------|    
 | GET /comments                 | Retrieve a list of all comments.                     |
 | GET /comments/{comment_id}    | Retrieve details of a specific comment.              |
 | POST /comments                | Create a new comment.                                |
@@ -48,11 +50,13 @@
 ## Company House
 
 | Endpoint                      | Description                                          |
+|-------------------------------|------------------------------------------------------|    
 | GET /api/company/{company_number} | Retrieve summary information for a company       |
 
 ## Bookings 
 
 | Endpoint                      | Description                                          |
+|-------------------------------|------------------------------------------------------|    
 | GET /bookings                 | Retrieve a list of all holidays.                     |
 | POST /bookings/book           | Create a new holiday booking.                        |
 | GET /bookings/{holiday_id}    | Retrieve details of a specific holiday.              |
@@ -62,6 +66,7 @@
 ## Journal 
 
 | Endpoint                      | Description                                          |
+|-------------------------------|------------------------------------------------------|    
 | GET /entries                        | Retrieve a list of all journal entries.        |
 | GET /entries/user/{user_id}         | Retrieve journal entries for a specific user.  |
 | POST /entries/add                   | Create a new journal entry.                    |
@@ -72,6 +77,7 @@
 ## Rotas 
 
 | GET /rotas                           | Retrieve a list of all rotas.                 |
+|-------------------------------|------------------------------------------------------|    
 | GET /rotas/get/{business_id}         | Retrieve rotas for a specific business.       |
 | POST /rotas/add                       | Create a new rota.                           |
 | GET /rotas/{rota_id}                 | Retrieve details of a specific rota.          |
