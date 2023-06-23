@@ -1,4 +1,7 @@
 # Connectify_Backend
+
+Deployed at: https://connectify-server-b31a.onrender.com
+
 ## Running the server
 - Run `pipenv shell` to create a virtual env
 - Run `pipenv install` to install the dependencies
