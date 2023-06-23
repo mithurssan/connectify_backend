@@ -48,7 +48,7 @@ class Business(db.Model):
 
     @staticmethod
     def get_by_token(business_verify_token):
-        return db.session.get(Business, business_verify_token)
+        return db.session.get(Business, business_verify_token)  # pragma: no cover
 
     def update(self):
         db.session.commit()

@@ -21,6 +21,7 @@ flask-jwt-extended = "*"
 flask-mail = "*"
 pytest = "*"
 pytest-cov = "*"
+requests-mock = "*"
 
 [scripts]
 dev="flask run"
